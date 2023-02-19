@@ -1,5 +1,7 @@
 name: Main Experiment on AWS. 
 on: [push]
+env:
+  go-chaos-version: "v0.1.1"
 jobs: 
   github-go-chaos:
     runs-on: ubuntu-latest
@@ -9,7 +11,6 @@ jobs:
       - name: Install go-chaos
         run: | 
           echo "Installing go-chaos"
-          LATEST_TAG=$(curl https://api.github.com/repos/gochaos-app/go-chaos/releases -s | jq -r .[].tag_name | sort -r | head -1)   
-          wget https://github.com/gochaos-app/go-chaos/releases/download/${LATEST_TAG}/go-chaos-linux-amd64
+          wget https://github.com/gochaos-app/go-chaos/releases/download/${{ env.go-chaos-version }}/go-chaos-linux-amd64
           chmod +x go-chaos-linux-amd64 && mv go-chaos-linux-amd64 /usr/local/bin/go-chaos 
-          go-chaos -v
+          go-chaos -h
