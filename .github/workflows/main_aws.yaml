@@ -8,13 +8,26 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+      
+      - name: Aws Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
       - name: Install go-chaos
         run: | 
           echo "Installing go-chaos"
           wget https://github.com/gochaos-app/go-chaos/releases/download/${{ env.go-chaos-version }}/go-chaos-linux-amd64
           chmod +x go-chaos-linux-amd64 && mv go-chaos-linux-amd64 /usr/local/bin/go-chaos 
           go-chaos -h
+      
       - name: go-chaos validate
         working-directory: aws_ec2
         run: go-chaos validate config.hcl
         shell: bash
+        
+      - name: go-chaos destroy
+        working-directory: aws_ec2
+        run: go-chaos destroy config.hcl

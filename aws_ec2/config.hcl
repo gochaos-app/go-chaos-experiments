@@ -5,8 +5,8 @@ job "aws" "ec2" {
     region = "us-east-1"
     config {
         tag = "Name:login-app-prod" ## search for tag: Name = login-app-prod in Virginia region
-        chaos = "stop"              ## Stop instances    
-        count = 3                   ## We have 5 instances in total, stop only 3
+        chaos = "terminate"              ## terminate instances    
+        count = 1                   ## We have 2 instances in total, terminate only 1
     }
 }
 
@@ -17,9 +17,4 @@ job "aws" "lambda" {
         chaos = "stop"              ## Do not destroy lambdas, put concurrency to 0    
         count = 1                   ## There's only one function in region us-east-1
     }
-}
-
-script {
-    executor    = "bash"
-    source      = "notification.sh" 
 }
