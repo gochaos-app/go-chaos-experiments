@@ -14,3 +14,7 @@ jobs:
           wget https://github.com/gochaos-app/go-chaos/releases/download/${{ env.go-chaos-version }}/go-chaos-linux-amd64
           chmod +x go-chaos-linux-amd64 && mv go-chaos-linux-amd64 /usr/local/bin/go-chaos 
           go-chaos -h
+      - name: go-chaos validate
+        working-directory: aws_ec2
+        run: go-chaos validate config.hcl
+        shell: bash
