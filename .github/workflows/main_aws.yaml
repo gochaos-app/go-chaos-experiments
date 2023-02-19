@@ -1,7 +1,7 @@
 name: Main Experiment on AWS. 
 on: [push]
 jobs: 
-  chaos engineering on github actions with go-chaos:
+  github-go-chaos:
   runs-on: ubuntu-latest
   steps:
     - name: Check out repository code
