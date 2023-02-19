@@ -1,0 +1,11 @@
+name: Main Experiment on AWS. 
+on: [push]
+jobs: 
+  chaos engineering on github actions with go-chaos:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - name: Install go-chaos
+      run: | 
+        echo "Installing go-chaos"
