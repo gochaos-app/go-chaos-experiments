@@ -1,7 +1,13 @@
 name: Main Experiment on AWS. 
 on: workflow_dispatch
 env:
-  go-chaos-version: "v0.1.1"
+  go-chaos-version: "v0.4.0"
+  role: arn:aws:iam::538412665789:role/github-role
+
+permissions:
+  id-token: write
+  contents: read
+  
 jobs: 
   github-go-chaos:
     runs-on: ubuntu-latest
@@ -12,8 +18,7 @@ jobs:
       - name: Aws Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ env.role }}
           aws-region: us-east-2
 
       - name: Install go-chaos
@@ -23,11 +28,4 @@ jobs:
           chmod +x go-chaos-linux-amd64 && mv go-chaos-linux-amd64 /usr/local/bin/go-chaos 
           go-chaos -h
       
-      - name: go-chaos validate
-        working-directory: aws_ec2
-        run: go-chaos validate config.hcl
-        shell: bash
-        
-      - name: go-chaos destroy
-        working-directory: aws_ec2
-        run: go-chaos destroy config.hcl
+      
