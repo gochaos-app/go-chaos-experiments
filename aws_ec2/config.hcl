@@ -10,13 +10,13 @@ job "aws" "ec2" {
     }
 }
 
-#job "do" "droplet" {
-#    config {
-#        tag = "sg_virtual_conference"
-#        chaos = "terminate"
-#        count = 1
-#    }
-#}
+job "do" "droplet" {
+    config {
+        tag = "sg_virtual_conference"
+        chaos = "terminate"
+        count = 2
+    }
+}
 
 notification "slack" {
     to   = ["C046AEFD8JV"]
