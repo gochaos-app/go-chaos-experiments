@@ -10,11 +10,13 @@ permissions:
   
 jobs: 
   github-go-chaos:
+    env:
+      SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      
+        
       - name: Aws Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -27,5 +29,16 @@ jobs:
           wget https://github.com/gochaos-app/go-chaos/releases/download/${{ env.go-chaos-version }}/go-chaos-linux-amd64
           chmod +x go-chaos-linux-amd64 && mv go-chaos-linux-amd64 /usr/local/bin/go-chaos 
           go-chaos -h
+          
+      - name: go-chaos validate
+        working-directory: aws_ec2
+        run: go-chaos validate config.hcl
       
+      - name: go-chaos plan
+        working-directory: aws_ec2
+        run: go-chaos plan config.hcl
+          
+      - name: go-chaos destroy
+        working-directory: aws_ec2
+        run: go-chaos destroy config.hcl
       
