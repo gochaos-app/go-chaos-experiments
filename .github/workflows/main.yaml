@@ -1,4 +1,4 @@
-name: Main Experiment on AWS. 
+name: Main Experiment. 
 on: workflow_dispatch
 env:
   go-chaos-version: "v0.4.0"
@@ -12,6 +12,7 @@ jobs:
   github-go-chaos:
     env:
       SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
+      DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
